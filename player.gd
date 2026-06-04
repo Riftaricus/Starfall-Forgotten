@@ -50,8 +50,19 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED * 2.0 * delta)
 	move_and_slide()
-
+	update_animations()
 		
 func update_animations():
-	pass
+	if not $AnimatedSprite2d: return
+	
+	if not is_on_floor():
+		if velocity.y < 0:
+			$AnimatedSprite2d.play("jump")
+		else:
+			$AnimatedSprite2d.play("fall")
+	else:
+		if abs(velocity.x) > 5:
+			$AnimatedSprite2d.play("walk")
+		else:
+			$AnimatedSprite2d.play("idle")
 		
