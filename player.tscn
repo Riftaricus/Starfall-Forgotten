@@ -4,8 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://bnm2ffs62hvlv" path="res://assets/player.png" id="2_onrkg"]
 [ext_resource type="AudioStream" uid="uid://bva72gjey7nej" path="res://assets/09 - Out From Port - Out from port.ogg" id="3_i3pqv"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onrkg"]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3pqv"]
 atlas = ExtResource("2_onrkg")
 region = Rect2(1200, 160, 80, 80)
@@ -57,6 +55,14 @@ region = Rect2(800, 240, 80, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_606se"]
 atlas = ExtResource("2_onrkg")
 region = Rect2(880, 240, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ek41f"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(880, 80, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_khis8"]
+atlas = ExtResource("2_onrkg")
+region = Rect2(960, 80, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u1c27"]
 atlas = ExtResource("2_onrkg")
@@ -186,6 +192,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ek41f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_khis8")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_u1c27")
 }, {
 "duration": 1.0,
@@ -255,22 +272,20 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onrkg"]
+
 [node name="Player" type="Area2D" unique_id=1780588428]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=490459872]
 script = ExtResource("1_e2o6t")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1794978821]
-scale = Vector2(1.611, 1.566)
-shape = SubResource("CapsuleShape2D_onrkg")
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=697644037]
 zoom = Vector2(3.88, 3.88)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=958107434]
 sprite_frames = SubResource("SpriteFrames_ek41f")
-animation = &"walk"
-frame = 7
+animation = &"fall"
+frame_progress = 0.7435089
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CharacterBody2D" unique_id=1780438443]
 position = Vector2(-3, 23)
@@ -278,3 +293,8 @@ stream = ExtResource("3_i3pqv")
 volume_db = -8.925
 autoplay = true
 max_distance = 4096.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1794978821]
+position = Vector2(1, 11)
+scale = Vector2(1.611, 1.566)
+shape = SubResource("CapsuleShape2D_onrkg")
