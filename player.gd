@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-const SPEED = 150.0
-const JUMP_VELOCITY = -300.0
+const SPEED = 500.0
+const JUMP_VELOCITY = -1000.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -45,24 +45,8 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 2.0 * delta)
 		
-		if $AnimatedSprite2D:
-			$AnimatedSprite2D.flip_h = (direction < 0)
+		if $Sprite2D:
+			$Sprite2D.flip_h = (direction < 0)
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED * 2.0 * delta)
 	move_and_slide()
-	update_animations()
-		
-func update_animations():
-	if not $AnimatedSprite2D: return
-	
-	if not is_on_floor():
-		if velocity.y < 0:
-			$AnimatedSprite2D.play("jump")
-		else:
-			$AnimatedSprite2D.play("fall")
-	else:
-		if abs(velocity.x) > 5:
-			$AnimatedSprite2D.play("walk")
-		else:
-			$AnimatedSprite2D.play("idle")
-		
