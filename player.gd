@@ -28,6 +28,8 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer = JUMP_BUFFER_TIMER_THRESHOLD
+	if Input.is_action_just_released("jump") and velocity.y < 0:
+		velocity.y += 0.5
 	if jump_buffer_timer > 0:
 		if is_on_floor() or coyote_timer > 0:
 			velocity.y = JUMP_VELOCITY
@@ -50,4 +52,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 		
+func update_animations():
+	pass
 		
