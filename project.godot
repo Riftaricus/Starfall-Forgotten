@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Starfall Forgotten"
-run/main_scene="uid://u8h27pjiiggc"
+run/main_scene="uid://bdurx2n4xbcof"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

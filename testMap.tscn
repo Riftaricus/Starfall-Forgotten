@@ -1,17 +1,13 @@
-[gd_scene format=3 uid="uid://v8sbkmv1abox"]
+[gd_scene format=3 uid="uid://ng4om1pdec8t"]
 
-[ext_resource type="Texture2D" uid="uid://xig01s61qfv7" path="res://assets/placeholder.jpeg" id="1_wcbw0"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4ytp0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ytp0"]
 size = Vector2(4044, 756)
 
 [node name="Map" type="StaticBody2D" unique_id=1245486091]
+physics_material_override = SubResource("PhysicsMaterial_4ytp0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=709844035]
 position = Vector2(3, -13)
 shape = SubResource("RectangleShape2D_4ytp0")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1801458730]
-position = Vector2(-42, -5.000019)
-scale = Vector2(4.8523808, 0.79545456)
-texture = ExtResource("1_wcbw0")
