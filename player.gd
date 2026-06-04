@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-const SPEED = 150.0
-const JUMP_VELOCITY = -300.0
+const SPEED = 500.0
+const JUMP_VELOCITY = -1000.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -28,6 +28,8 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer = JUMP_BUFFER_TIMER_THRESHOLD
+	if Input.is_action_just_released("jump") and velocity.y < 0:
+		velocity.y += 0.5
 	if jump_buffer_timer > 0:
 		if is_on_floor() or coyote_timer > 0:
 			velocity.y = JUMP_VELOCITY
@@ -48,6 +50,3 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED * 2.0 * delta)
 	move_and_slide()
-
-		
-		
