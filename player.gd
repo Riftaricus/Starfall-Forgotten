@@ -1,7 +1,10 @@
 extends CharacterBody2D
 
 const SPEED = 500.0
-const JUMP_VELOCITY = -1000.0
+const JUMP_VELOCITY = -500.0
+const GRIP = 500
+
+var was_on_floor = false
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -15,6 +18,7 @@ var jump_buffer_timer = 0.0
 const JUMP_BUFFER_TIMER_THRESHOLD = 0.1
 
 func _physics_process(delta):
+	var on_floor = is_on_floor()
 	# Apply gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -54,20 +58,20 @@ func _physics_process(delta):
 		if $AnimatedSprite2D: # Ensure the node exists
 			$AnimatedSprite2D.flip_h = (direction < 0)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED * 2.0 * delta) # Decelerate to a stop
+		velocity.x = move_toward(velocity.x, 0, SPEED * 4.0 * delta) # Decelerate to a stop
 
 	move_and_slide()
 
 	# Update animations (simplified)
-	update_animations()
+	update_animations(on_floor, was_on_floor)
+	was_on_floor = on_floor
 	
-func update_animations():
+func update_animations(on_floor: bool, prev_on_floor: bool):
 	if not $AnimatedSprite2D: return
-
-	if not is_on_floor():
-		if velocity.y < 0:
+	if not on_floor:
+		if prev_on_floor or velocity.y < 0 and $AnimatedSprite2D.animation != "jump":
 			$AnimatedSprite2D.play("jump")
-		else:
+		elif velocity.y > 0 and not $AnimatedSprite2D.is_playing():
 			$AnimatedSprite2D.play("fall")
 	else:
 		if abs(velocity.x) > 5:
