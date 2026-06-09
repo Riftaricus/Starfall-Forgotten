@@ -13,5 +13,5 @@ position = Vector2(3, -23)
 position = Vector2(164, 420)
 
 [node name="Sprite2D" type="Sprite2D" parent="Map" unique_id=403770722]
-position = Vector2(-159, -329)
+position = Vector2(-161, -327)
 texture = ExtResource("3_feb5d")

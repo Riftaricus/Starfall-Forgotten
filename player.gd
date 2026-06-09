@@ -7,6 +7,7 @@ const GRIP = 500
 var was_on_floor = false
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var speed_multiplier = 1
 
 var air_jumps = 1
 var current_air_jumps = 0
@@ -36,6 +37,13 @@ func _physics_process(delta):
 	# Handle Jump input (with buffer and coyote time)
 	if Input.is_action_just_pressed("jump"): # "jump" is an action defined in InputMap
 		jump_buffer_timer = JUMP_BUFFER_TIMER_THRESHOLD
+		
+	if Input.is_action_just_pressed("down"):
+		if not is_on_floor():
+			velocity.y += 1600
+		else:
+			velocity.y -= 640da
+			speed_multiplier = 1.5
 
 	if jump_buffer_timer > 0:
 		if is_on_floor() or coyote_timer > 0: # Normal jump or coyote time jump
@@ -53,7 +61,9 @@ func _physics_process(delta):
 	# Movement with simple acceleration/deceleration (you can make this more complex)
 	if direction:
 		# We use move_toward for basic acceleration/deceleration
-		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 2.0 * delta) # Last value is acceleration
+		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 2.0 * delta * speed_multiplier) # Last value is acceleration
+		if speed_multiplier > 1:
+			speed_multiplier -= 1
 		# Flip the sprite
 		if $AnimatedSprite2D: # Ensure the node exists
 			$AnimatedSprite2D.flip_h = (direction < 0)
@@ -62,7 +72,6 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-	# Update animations (simplified)
 	update_animations(on_floor, was_on_floor)
 	was_on_floor = on_floor
 	
