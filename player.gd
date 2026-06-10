@@ -1,80 +1,72 @@
 extends CharacterBody2D
-
-const SPEED = 500.0
-const JUMP_VELOCITY = -500.0
-const GRIP = 500
-
+const SPEED = 250.0
+const JUMP_VELOCITY = -250.0
 var was_on_floor = false
-
+var is_jump_held = false
+var jump_hold_timer = 0.0
+const MAX_JUMP_HOLD_TIME = 0.25
+const JUMP_HOLD_FORCE = 1000.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var speed_multiplier = 1
-
 var air_jumps = 1
 var current_air_jumps = 0
-
 var coyote_timer = 0.0
 const COYOTE_TIME_THRESHOLD = 0.1
-
 var jump_buffer_timer = 0.0
 const JUMP_BUFFER_TIMER_THRESHOLD = 0.1
 
 func _physics_process(delta):
 	var on_floor = is_on_floor()
-	# Apply gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	else:
-		# Reset air jumps and coyote time when on the floor
 		current_air_jumps = air_jumps
-		coyote_timer = COYOTE_TIME_THRESHOLD # Reload coyote time
-
-	# Update timers
+		coyote_timer = COYOTE_TIME_THRESHOLD
 	if coyote_timer > 0:
 		coyote_timer -= delta
 	if jump_buffer_timer > 0:
 		jump_buffer_timer -= delta
-
-	# Handle Jump input (with buffer and coyote time)
-	if Input.is_action_just_pressed("jump"): # "jump" is an action defined in InputMap
+	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer = JUMP_BUFFER_TIMER_THRESHOLD
-		
 	if Input.is_action_just_pressed("down"):
 		if not is_on_floor():
-			velocity.y += 1600
-		else:
-			velocity.y -= 640da
-			speed_multiplier = 1.5
-
+			velocity.y += 800
 	if jump_buffer_timer > 0:
-		if is_on_floor() or coyote_timer > 0: # Normal jump or coyote time jump
+		if is_on_floor() or coyote_timer > 0:
 			velocity.y = JUMP_VELOCITY
-			jump_buffer_timer = 0 # Consume buffer
-			coyote_timer = 0 # Consume coyote time if used
-		elif current_air_jumps > 0: # Air jump (double jump, etc.)
-			velocity.y = JUMP_VELOCITY * 0.8 # Perhaps a bit weaker
+			jump_buffer_timer = 0
+			coyote_timer = 0
+			is_jump_held = true
+			jump_hold_timer = 0.0
+		elif current_air_jumps > 0:
+			velocity.y = JUMP_VELOCITY * 0.8
 			current_air_jumps -= 1
-			jump_buffer_timer = 0 # Consume buffer
-
-	# Handle Horizontal input
-	var direction = Input.get_axis("move_left", "move_right") # "move_left" & "move_right" from InputMap
-
-	# Movement with simple acceleration/deceleration (you can make this more complex)
+			jump_buffer_timer = 0
+			is_jump_held = true
+			jump_hold_timer = 0.0
+	var direction = Input.get_axis("move_left", "move_right")
 	if direction:
-		# We use move_toward for basic acceleration/deceleration
-		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 2.0 * delta * speed_multiplier) # Last value is acceleration
+		var accel = SPEED * 10.0 if is_on_floor() else SPEED * 4.0
+		velocity.x = move_toward(velocity.x, direction * SPEED, accel * delta * speed_multiplier)
 		if speed_multiplier > 1:
-			speed_multiplier -= 1
-		# Flip the sprite
-		if $AnimatedSprite2D: # Ensure the node exists
+			speed_multiplier -= 2
+		if speed_multiplier <= 1:
+			speed_multiplier = 1
+		if $AnimatedSprite2D:
 			$AnimatedSprite2D.flip_h = (direction < 0)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED * 4.0 * delta) # Decelerate to a stop
-
+		var decel = SPEED * 14.0 if is_on_floor() else SPEED * 3.0
+		velocity.x = move_toward(velocity.x, 0, decel * delta)
+	if is_jump_held:
+		if Input.is_action_pressed("jump") and jump_hold_timer < MAX_JUMP_HOLD_TIME and velocity.y < 0:
+			velocity.y -= JUMP_HOLD_FORCE * delta
+			jump_hold_timer += delta
+		else:
+			is_jump_held = false
 	move_and_slide()
-
 	update_animations(on_floor, was_on_floor)
 	was_on_floor = on_floor
-	
+
 func update_animations(on_floor: bool, prev_on_floor: bool):
 	if not $AnimatedSprite2D: return
 	if not on_floor:
