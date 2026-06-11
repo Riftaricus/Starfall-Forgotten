@@ -17,7 +17,7 @@ const JUMP_BUFFER_TIMER_THRESHOLD = 0.1
 
 func _physics_process(delta):
 	var on_floor = is_on_floor()
-	if not is_on_floor():
+	if not on_floor:
 		velocity.y += gravity * delta
 	else:
 		current_air_jumps = air_jumps
@@ -63,6 +63,13 @@ func _physics_process(delta):
 			jump_hold_timer += delta
 		else:
 			is_jump_held = false
+			
+	if Input.is_action_just_pressed("use_grapple"):
+		if on_floor:
+			var mouse = get_global_mouse_position()
+			var dir = (mouse - position).normalized()
+			velocity += dir * 500
+	
 	move_and_slide()
 	update_animations(on_floor, was_on_floor)
 	was_on_floor = on_floor
