@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bg5uw54ytsqo6" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bnm2ffs62hvlv" path="res://assets/player.png" id="2_onrkg"]
+[ext_resource type="AudioStream" uid="uid://bva72gjey7nej" path="res://assets/09 - Out From Port - Out from port.ogg" id="3_i3pqv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_feb5d"]
 radius = 20.0
@@ -311,3 +312,8 @@ value = 100.0
 fill_mode = 3
 show_percentage = false
 metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1210154723]
+stream = ExtResource("3_i3pqv")
+volume_db = -16.106
+autoplay = true

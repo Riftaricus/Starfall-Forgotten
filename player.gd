@@ -69,7 +69,7 @@ func _physics_process(delta):
 			
 	if Input.is_action_just_pressed("use_grapple"):
 		if dash_buffer_timer <= 0:
-			if $ProgressBar.value >= 30 if direction != 0 else $ProgressBar.value >= 60:
+			if $ProgressBar.value >= 30 if direction != 0 else $ProgressBar.value >= 100:
 				$ProgressBar.value -= 30
 				$DashParticles.emitting = true
 				dash_buffer_timer = 1
@@ -78,8 +78,8 @@ func _physics_process(delta):
 				elif direction == 1:
 					velocity += Vector2(2, 0) * 500
 				else:
-					$ProgressBar.value -= 30
-					dash_buffer_timer = 3
+					$ProgressBar.value -= 100
+					dash_buffer_timer = 10
 					velocity += Vector2(0, -2) * 500
 	else:
 		$DashParticles.emitting = false
