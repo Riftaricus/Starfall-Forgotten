@@ -67,17 +67,20 @@ func _physics_process(delta):
 		else:
 			is_jump_held = false
 			
-	if Input.is_action_just_pressed("use_grapple"):
+	if Input.is_action_just_pressed("use_dash"):
 		if dash_buffer_timer <= 0:
 			if $ProgressBar.value >= 30 if direction != 0 else $ProgressBar.value >= 100:
 				$ProgressBar.value -= 30
 				$DashParticles.emitting = true
+				$Dash.playing = true
+				$Dash.pitch_scale = 2
 				dash_buffer_timer = 1
 				if direction == -1:
 					velocity += Vector2(-2, 0) * 500
 				elif direction == 1:
 					velocity += Vector2(2, 0) * 500
 				else:
+					$Dash.pitch_scale = 1
 					$ProgressBar.value -= 100
 					dash_buffer_timer = 10
 					velocity += Vector2(0, -2) * 500
@@ -99,6 +102,7 @@ func update_animations(on_floor: bool, prev_on_floor: bool):
 	if not on_floor:
 		if prev_on_floor or velocity.y < 0 and $AnimatedSprite2D.animation != "jump":
 			$AnimatedSprite2D.play("jump")
+			$Jump.playing = true
 			$JumpParticles.emitting = true
 		elif velocity.y > 0 and not $AnimatedSprite2D.is_playing():
 			$AnimatedSprite2D.play("fall")

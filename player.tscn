@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://bg5uw54ytsqo6" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bnm2ffs62hvlv" path="res://assets/player.png" id="2_onrkg"]
 [ext_resource type="AudioStream" uid="uid://bva72gjey7nej" path="res://assets/09 - Out From Port - Out from port.ogg" id="3_i3pqv"]
+[ext_resource type="AudioStream" uid="uid://dhf8a40absqkl" path="res://assets/jump.wav" id="4_hqtel"]
+[ext_resource type="AudioStream" uid="uid://c0fp1g2ci5sd0" path="res://assets/dash.wav" id="4_sweqy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_feb5d"]
 radius = 20.0
@@ -313,7 +315,13 @@ fill_mode = 3
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1210154723]
+[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=1210154723]
 stream = ExtResource("3_i3pqv")
 volume_db = -16.106
 autoplay = true
+
+[node name="Dash" type="AudioStreamPlayer2D" parent="." unique_id=1129175173]
+stream = ExtResource("4_sweqy")
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="." unique_id=341010160]
+stream = ExtResource("4_hqtel")
