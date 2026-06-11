@@ -69,12 +69,15 @@ func _physics_process(delta):
 			
 	if Input.is_action_just_pressed("use_grapple"):
 		if dash_buffer_timer <= 0:
+			$DashParticles.emitting = true
 			var mouse = get_global_mouse_position()
 			dash_buffer_timer = 1
 			if direction == -1:
 				velocity += Vector2(-2, 0) * 500
 			elif direction == 1:
 				velocity += Vector2(2, 0) * 500
+	else:
+		$DashParticles.emitting = false
 	
 	move_and_slide()
 	update_animations(on_floor, was_on_floor)
@@ -85,8 +88,10 @@ func update_animations(on_floor: bool, prev_on_floor: bool):
 	if not on_floor:
 		if prev_on_floor or velocity.y < 0 and $AnimatedSprite2D.animation != "jump":
 			$AnimatedSprite2D.play("jump")
+			$JumpParticles.emitting = true
 		elif velocity.y > 0 and not $AnimatedSprite2D.is_playing():
 			$AnimatedSprite2D.play("fall")
+			$JumpParticles.emitting = false
 	else:
 		if abs(velocity.x) > 5:
 			$AnimatedSprite2D.play("walk")
