@@ -1,8 +1,7 @@
-[gd_scene format=3 uid="uid://campgk5nc3y1m"]
+[gd_scene format=3 uid="uid://bdurx2n4xbcof"]
 
 [ext_resource type="PackedScene" uid="uid://cqtmwoydyf5c0" path="res://player.tscn" id="1_wbfu4"]
 [ext_resource type="PackedScene" uid="uid://ng4om1pdec8t" path="res://testMap.tscn" id="2_xkndl"]
-[ext_resource type="Texture2D" uid="uid://byjcmhhp28ioa" path="res://icon.svg" id="3_feb5d"]
 
 [node name="Node2D" type="Node2D" unique_id=892936967]
 
@@ -10,11 +9,4 @@
 position = Vector2(3, -23)
 
 [node name="Map" parent="." unique_id=1245486091 instance=ExtResource("2_xkndl")]
-texture_repeat = 2
 position = Vector2(164, 420)
-
-[node name="Sprite2D" type="Sprite2D" parent="Map" unique_id=403770722]
-texture_repeat = 2
-position = Vector2(3.9999847, -327)
-scale = Vector2(31.59375, 1)
-texture = ExtResource("3_feb5d")
