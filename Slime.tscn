@@ -144,22 +144,16 @@ animations = [{
 radius = 12.0
 height = 32.0
 
-[node name="Mob" type="Node2D" unique_id=42437123]
-
-[node name="Slime" type="RigidBody2D" parent="." unique_id=196491077]
-collision_mask = 0
-gravity_scale = 0.0
+[node name="Slime" type="CharacterBody2D" unique_id=99021002]
 script = ExtResource("1_r6b5h")
-metadata/_edit_group_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Slime" unique_id=1810253190]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=495007248]
 scale = Vector2(0.75, 0.75)
 sprite_frames = SubResource("SpriteFrames_yu1co")
-animation = &"walk"
-frame_progress = 0.58289284
+animation = &"death"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Slime" unique_id=333993329]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=571945368]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_3ijg8")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Slime" unique_id=2004332033]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=787349273]

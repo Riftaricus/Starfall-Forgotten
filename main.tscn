@@ -1,12 +1,23 @@
 [gd_scene format=3 uid="uid://u8h27pjiiggc"]
 
 [ext_resource type="PackedScene" uid="uid://cqtmwoydyf5c0" path="res://player.tscn" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://v8sbkmv1abox" path="res://testMap.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://ys55g80fy6yf" path="res://Slime.tscn" id="1_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://ng4om1pdec8t" path="res://testMap.tscn" id="2_h2yge"]
+[ext_resource type="Texture2D" uid="uid://byjcmhhp28ioa" path="res://icon.svg" id="3_h2yge"]
 
-[node name="Node" type="Node" unique_id=1125432303]
+[node name="Game" type="Node2D" unique_id=167339024]
 
-[node name="Area2D" parent="." unique_id=1344381065 instance=ExtResource("2_h2yge")]
-position = Vector2(-196, 407)
+[node name="Player" parent="." unique_id=859817214 instance=ExtResource("1_0xm2m")]
+position = Vector2(46, -23)
 
-[node name="CharacterBody2D" parent="." unique_id=859817214 instance=ExtResource("1_0xm2m")]
-position = Vector2(-16, -1350)
+[node name="Slime" parent="." unique_id=99021002 instance=ExtResource("1_1bvp3")]
+
+[node name="Map" parent="." unique_id=1245486091 instance=ExtResource("2_h2yge")]
+texture_repeat = 2
+position = Vector2(164, 420)
+
+[node name="Sprite2D" type="Sprite2D" parent="Map" unique_id=1151965010]
+texture_repeat = 2
+position = Vector2(3.9999847, -327)
+scale = Vector2(31.59375, 1)
+texture = ExtResource("3_h2yge")

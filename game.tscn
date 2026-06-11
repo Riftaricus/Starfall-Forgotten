@@ -1,10 +1,10 @@
-[gd_scene format=3 uid="uid://campgk5nc3y1m"]
+[gd_scene format=3 uid="uid://cmj8hn4pfgmob"]
 
 [ext_resource type="PackedScene" uid="uid://cqtmwoydyf5c0" path="res://player.tscn" id="1_wbfu4"]
 [ext_resource type="PackedScene" uid="uid://ng4om1pdec8t" path="res://testMap.tscn" id="2_xkndl"]
 [ext_resource type="Texture2D" uid="uid://byjcmhhp28ioa" path="res://icon.svg" id="3_feb5d"]
 
-[node name="Node2D" type="Node2D" unique_id=892936967]
+[node name="Game" type="Node2D" unique_id=892936967]
 
 [node name="Player" parent="." unique_id=1780588428 instance=ExtResource("1_wbfu4")]
 position = Vector2(3, -23)
