@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bva72gjey7nej"
+path="res://.godot/imported/09 - Out From Port - Out from port.ogg-5776a1ef26f9ea9c732be1dec505a2e5.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/09 - Out From Port - Out from port.ogg"
+dest_files=["res://.godot/imported/09 - Out From Port - Out from port.ogg-5776a1ef26f9ea9c732be1dec505a2e5.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
