@@ -14,6 +14,7 @@ var coyote_timer = 0.0
 const COYOTE_TIME_THRESHOLD = 0.1
 var jump_buffer_timer = 0.0
 const JUMP_BUFFER_TIMER_THRESHOLD = 0.1
+var dash_buffer_timer = 0.0
 
 func _physics_process(delta):
 	var on_floor = is_on_floor()
@@ -26,6 +27,8 @@ func _physics_process(delta):
 		coyote_timer -= delta
 	if jump_buffer_timer > 0:
 		jump_buffer_timer -= delta
+	if dash_buffer_timer > 0:
+		dash_buffer_timer -= delta
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer = JUMP_BUFFER_TIMER_THRESHOLD
 	if Input.is_action_just_pressed("down"):
@@ -65,10 +68,13 @@ func _physics_process(delta):
 			is_jump_held = false
 			
 	if Input.is_action_just_pressed("use_grapple"):
-		if on_floor:
+		if dash_buffer_timer <= 0:
 			var mouse = get_global_mouse_position()
-			var dir = (mouse - position).normalized()
-			velocity += dir * 500
+			dash_buffer_timer = 1
+			if direction == -1:
+				velocity += Vector2(-2, 0) * 500
+			elif direction == 1:
+				velocity += Vector2(2, 0) * 500
 	
 	move_and_slide()
 	update_animations(on_floor, was_on_floor)
