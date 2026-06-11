@@ -14,6 +14,7 @@ var coyote_timer = 0.0
 const COYOTE_TIME_THRESHOLD = 0.1
 var jump_buffer_timer = 0.0
 const JUMP_BUFFER_TIMER_THRESHOLD = 0.1
+var dash_buffer_timer = 0.0
 
 func _physics_process(delta):
 	var on_floor = is_on_floor()
@@ -26,6 +27,8 @@ func _physics_process(delta):
 		coyote_timer -= delta
 	if jump_buffer_timer > 0:
 		jump_buffer_timer -= delta
+	if dash_buffer_timer > 0:
+		dash_buffer_timer -= delta
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer = JUMP_BUFFER_TIMER_THRESHOLD
 	if Input.is_action_just_pressed("down"):
@@ -64,14 +67,34 @@ func _physics_process(delta):
 		else:
 			is_jump_held = false
 			
-	if Input.is_action_just_pressed("use_grapple"):
-		if on_floor:
-			var mouse = get_global_mouse_position()
-			var dir = (mouse - position).normalized()
-			velocity += dir * 500
+	if Input.is_action_just_pressed("use_dash"):
+		if dash_buffer_timer <= 0:
+			if $ProgressBar.value >= 30 if direction != 0 else $ProgressBar.value >= 100:
+				$ProgressBar.value -= 30
+				$DashParticles.emitting = true
+				$Dash.playing = true
+				$Dash.pitch_scale = 2
+				dash_buffer_timer = 1
+				if direction == -1:
+					velocity += Vector2(-2, 0) * 500
+				elif direction == 1:
+					velocity += Vector2(2, 0) * 500
+				else:
+					$Dash.pitch_scale = 1
+					$ProgressBar.value -= 100
+					dash_buffer_timer = 10
+					velocity += Vector2(0, -2) * 500
+	else:
+		$DashParticles.emitting = false
+		
+	if $ProgressBar.value == 100:
+		$ProgressBar.indeterminate = true
+	else:
+		$ProgressBar.indeterminate = false
 	
 	move_and_slide()
 	update_animations(on_floor, was_on_floor)
+	$ProgressBar.value += 0.1
 	was_on_floor = on_floor
 
 func update_animations(on_floor: bool, prev_on_floor: bool):
@@ -79,8 +102,11 @@ func update_animations(on_floor: bool, prev_on_floor: bool):
 	if not on_floor:
 		if prev_on_floor or velocity.y < 0 and $AnimatedSprite2D.animation != "jump":
 			$AnimatedSprite2D.play("jump")
+			$Jump.playing = true
+			$JumpParticles.emitting = true
 		elif velocity.y > 0 and not $AnimatedSprite2D.is_playing():
 			$AnimatedSprite2D.play("fall")
+			$JumpParticles.emitting = false
 	else:
 		if abs(velocity.x) > 5:
 			$AnimatedSprite2D.play("walk")
