@@ -15,12 +15,15 @@ const COYOTE_TIME_THRESHOLD = 0.1
 var jump_buffer_timer = 0.0
 const JUMP_BUFFER_TIMER_THRESHOLD = 0.1
 var dash_buffer_timer = 0.0
+var air_time = 0;
 
 func _physics_process(delta):
 	var on_floor = is_on_floor()
 	if not on_floor:
 		velocity.y += gravity * delta
+		air_time += 1
 	else:
+		air_time = 0
 		current_air_jumps = air_jumps
 		coyote_timer = COYOTE_TIME_THRESHOLD
 	if coyote_timer > 0:
@@ -100,11 +103,11 @@ func _physics_process(delta):
 func update_animations(on_floor: bool, prev_on_floor: bool):
 	if not $AnimatedSprite2D: return
 	if not on_floor:
-		if prev_on_floor or velocity.y < 0 and $AnimatedSprite2D.animation != "jump":
+		if (prev_on_floor or velocity.y < 0) and $AnimatedSprite2D.animation != "jump" and air_time > 3:
 			$AnimatedSprite2D.play("jump")
 			$Jump.playing = true
 			$JumpParticles.emitting = true
-		elif velocity.y > 0 and not $AnimatedSprite2D.is_playing():
+		elif velocity.y > 0 and air_time > 20:
 			$AnimatedSprite2D.play("fall")
 			$JumpParticles.emitting = false
 	else:

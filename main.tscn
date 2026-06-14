@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cqtmwoydyf5c0" path="res://player.tscn" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://b3hvsjuktcsoq" path="res://map.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" path="res://Slime.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node2D" unique_id=732067298]
 
@@ -10,3 +11,6 @@ position = Vector2(152, -1446)
 
 [node name="Map" parent="." unique_id=1295686236 instance=ExtResource("2_0xm2m")]
 position = Vector2(131, -497)
+
+[node name="Slime" parent="." unique_id=99021002 instance=ExtResource("3_h2yge")]
+position = Vector2(26, -1463)
